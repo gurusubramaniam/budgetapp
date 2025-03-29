@@ -5,9 +5,21 @@ export default function Home() {
   const desc = useRef<HTMLInputElement>(null);
   const amount = useRef<HTMLInputElement>(null);
   const type = useRef<HTMLSelectElement>(null);
-
-  const [budgetItems, setBudgetItems] = useState<{ description: string | undefined; amount: string | undefined; type: string | undefined }[]>([]);
-
+  const initialValues = [
+    {description: "Checking", amount: 100, type: "Expense"},
+    {description: "Checking", amount: 100, type: "Expense"},
+    {description: "Checking", amount: 100, type: "Expense"},
+    {description: "Checking", amount: 100, type: "Expense"},
+    {description: "Salary", amount: 100, type: "Income"},
+    {description: "Checking", amount: 100, type: "Expense"},
+    {description: "Savings", amount: 100, type: "Savings"},
+    {description: "Checking", amount: 100, type: "Expense"},
+    {description: "Salary", amount: 100, type: "Income"},
+    {description: "Savings", amount: 100, type: "Savings"},
+    {description: "Salary", amount: 100, type: "Income"},
+    {description: "Salary", amount: 100, type: "Income"}
+  ]
+  const [budgetItems, setBudgetItems] = useState<{ description: string | undefined; amount: Number | undefined; type: string | undefined }[]>(initialValues);
   const handleUpdateBudget = () => {
     const description = desc.current?.value;
     const amountValue = amount.current?.value;
@@ -23,7 +35,7 @@ export default function Home() {
       ...budgetItems,
       {
         description,
-        amount: amountValue,
+        amount: parseInt(amountValue),
         type: typeValue,
       },
     ]);
@@ -96,8 +108,9 @@ export default function Home() {
         groups[item.type] = [];      // Initialize it as an empty array
       }
       groups[item.type].push(item);  // Add the current item to the appropriate group
+
       return groups;                 // Return the updated groups object
-    }, {} as Record<string, { description: string | undefined; amount: string | undefined; type: string | undefined }[]>);
+    }, {} as Record<string, { description: string | undefined; amount: Number | undefined; type: string | undefined }[]>);
 
     return (
       <div className="overflow-hidden mt-10">
@@ -137,7 +150,7 @@ export default function Home() {
                   >
                     <td className="px-2 sm:px-6 py-4 truncate">{item.description}</td>
                     <td className="px-2 sm:px-6 py-4 truncate">{item.type}</td>
-                    <td className="px-2 sm:px-6 py-4 truncate">$ {item.amount}</td>
+                    <td className="px-2 sm:px-6 py-4 truncate">$ {item.amount?.toString()}</td>
                   </tr>
                 ))}
               </React.Fragment>
